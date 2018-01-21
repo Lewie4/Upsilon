@@ -4,51 +4,68 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour 
 {
+	public enum ControlType
+	{
+		Button, 
+		PressurePlate
+	};
+
+	[SerializeField] private DoorManager m_door;
+	[SerializeField] private ControlType m_controlType;
+
 	private Animator m_anim;
-	private bool m_doorOpen;
+	private bool m_pressed;
 
 	private void Start()
 	{
-		m_doorOpen = false;
+		m_pressed = false;
 		m_anim = GetComponent<Animator> ();
 	}
 
 	private void OnTriggerEnter(Collider col)
 	{
-		if (col.gameObject.tag == "Player") 
-		{
-			OpenDoor ();
+		if (m_controlType == ControlType.Button) {
+			ButtonPress (col);
+		} else if (m_controlType == ControlType.PressurePlate) {
+			PressurePlatePress (col);
 		}
 	}
 
 	private void OnTriggerExit(Collider col)
 	{
+		if (m_controlType == ControlType.PressurePlate) 
+		{
+			PressurePlatePress (col);
+		}
+	}
+
+	private void ButtonPress(Collider col)
+	{
 		if (col.gameObject.tag == "Player") 
 		{
-			CloseDoor ();
+			m_pressed = !m_pressed;
+			DoorControl ();
 		}
 	}
 
-	public void OpenDoor()
+	private void PressurePlatePress(Collider col)
 	{
-		if (!m_doorOpen) 
+		if (col.gameObject.tag == "Player") {
+			m_pressed = !m_pressed;
+			DoorControl ();
+		}
+	}
+
+	private void DoorControl()
+	{
+		m_anim.SetBool ("Pressed", m_pressed);
+		if (m_door != null) 
 		{
-			m_doorOpen = true;
-			DoorControl (m_doorOpen);
+			if (m_pressed) {
+				m_door.OpenDoor ();
+			} else {
+				m_door.CloseDoor ();
+			}
 		}
-	}
-
-	public void CloseDoor()
-	{
-		if (m_doorOpen) 
-		{
-			m_doorOpen = false;
-			DoorControl (m_doorOpen);
-		}
-	}
-
-	private void DoorControl(bool isOpen)
-	{
-		m_anim.SetBool ("Open", isOpen);
 	}
 }

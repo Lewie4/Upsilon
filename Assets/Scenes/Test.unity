@@ -553,7 +553,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275dc15892a01464191def96f61ae6f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_doorController: {fileID: 1519295329}
+  m_door: {fileID: 1519295329}
+  m_controlType: 0
 --- !u!65 &289814788
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1075,10 +1076,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 938443156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58657294754909a419464637e559a029, type: 3}
+  m_Script: {fileID: 11500000, guid: 275dc15892a01464191def96f61ae6f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_doorController: {fileID: 1519295329}
+  m_door: {fileID: 1519295329}
+  m_controlType: 1
 --- !u!65 &938443158
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -10,7 +10,6 @@ public class CameraController : MonoBehaviour {
 	public float m_yMaxLimit = 90f;
 	public float m_smoothTime = 2f;
 
-	private Vector3 m_offset;
 	private float m_rotationYAxis = 0.0f;
 	private float m_rotationXAxis = 0.0f;
 	private float m_velocityX = 0.0f;
@@ -18,7 +17,7 @@ public class CameraController : MonoBehaviour {
 
 	private void Start()
 	{
-		m_offset = transform.position - m_player.transform.position;
+		transform.position = m_player.transform.position;
 
 		Vector3 angles = transform.eulerAngles;
 		m_rotationYAxis = angles.y;
@@ -28,7 +27,7 @@ public class CameraController : MonoBehaviour {
 	private void LateUpdate()
 	{
 		if (m_player) {
-			transform.position = m_player.transform.position + m_offset;
+			transform.position = m_player.transform.position;
 
 			m_velocityX += m_xSpeed * Input.GetAxis ("Mouse X") * 0.02f;
 			m_velocityY += m_ySpeed * Input.GetAxis ("Mouse Y") * 0.02f;

@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class BallUserControl : MonoBehaviour
 {
-	private Ball ball;
-	private Vector3 move;
-	private Transform cam;
-	private Vector3 camForward;
-	private bool jump;
+	private Ball m_ball;
+	private Vector3 m_move;
+	private Transform m_cam;
+	private Vector3 m_camForward;
+	private bool m_jump;
 
 	private void Awake ()
 	{
-		ball = GetComponent<Ball> ();
+		m_ball = GetComponent<Ball> ();
 
 		if (Camera.main != null) {
-			cam = Camera.main.transform;
+			m_cam = Camera.main.transform;
 		} 
 	}
 
@@ -22,18 +22,18 @@ public class BallUserControl : MonoBehaviour
 	{
 		float h = Input.GetAxis ("Horizontal");
 		float v = Input.GetAxis ("Vertical");
-		jump = Input.GetButton ("Jump");
+		m_jump = Input.GetButton ("Jump");
 
-		if (cam != null) {
-			camForward = Vector3.Scale (cam.forward, new Vector3 (1, 0, 1)).normalized;
-			move = (v * camForward + h * cam.right).normalized;
+		if (m_cam != null) {
+			m_camForward = Vector3.Scale (m_cam.forward, new Vector3 (1, 0, 1)).normalized;
+			m_move = (v * m_camForward + h * m_cam.right).normalized;
 		}
 	}
 
 	private void FixedUpdate ()
 	{
-		ball.Move (move, jump);
-		jump = false;
+		m_ball.Move (m_move, m_jump);
+		m_jump = false;
 	}
 }
 

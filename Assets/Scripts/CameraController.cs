@@ -4,18 +4,16 @@ using System.Collections;
 public class CameraController : MonoBehaviour {
 
 	public GameObject m_player;
-	public float distance = 2.0f;
-	public float xSpeed = 20.0f;
-	public float ySpeed = 20.0f;
-	public float yMinLimit = -90f;
-	public float yMaxLimit = 90f;
-	public float distanceMin = 10f;
-	public float distanceMax = 10f;
-	public float smoothTime = 2f;
-	float rotationYAxis = 0.0f;
-	float rotationXAxis = 0.0f;
-	float velocityX = 0.0f;
-	float velocityY = 0.0f;
+	public float m_xSpeed = 20.0f;
+	public float m_ySpeed = 20.0f;
+	public float m_yMinLimit = -90f;
+	public float m_yMaxLimit = 90f;
+	public float m_smoothTime = 2f;
+
+	private float m_rotationYAxis = 0.0f;
+	private float m_rotationXAxis = 0.0f;
+	private float m_velocityX = 0.0f;
+	private float m_velocityY = 0.0f;
 
 	private Vector3 m_offset;
 
@@ -25,50 +23,38 @@ public class CameraController : MonoBehaviour {
 		m_offset = transform.position - m_player.transform.position;
 
 		Vector3 angles = transform.eulerAngles;
-		rotationYAxis = angles.y;
-		rotationXAxis = angles.x;
-		// Make the rigid body not change rotation
-		if (GetComponent<Rigidbody>())
-		{
-			GetComponent<Rigidbody>().freezeRotation = true;
-		}
+		m_rotationYAxis = angles.y;
+		m_rotationXAxis = angles.x;
 	}
-	void LateUpdate()
+
+	private void LateUpdate()
 	{
 		if (m_player) {
 			transform.position = m_player.transform.position + m_offset;
 
-			velocityX += xSpeed * Input.GetAxis ("Mouse X") * distance * 0.02f;
-			velocityY += ySpeed * Input.GetAxis ("Mouse Y") * 0.02f;
+			m_velocityX += m_xSpeed * Input.GetAxis ("Mouse X") * 0.02f;
+			m_velocityY += m_ySpeed * Input.GetAxis ("Mouse Y") * 0.02f;
 
-			rotationYAxis += velocityX;
-			rotationXAxis -= velocityY;
-			rotationXAxis = ClampAngle (rotationXAxis, yMinLimit, yMaxLimit);
-			Quaternion fromRotation = Quaternion.Euler (transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
-			Quaternion toRotation = Quaternion.Euler (rotationXAxis, rotationYAxis, 0);
-			Quaternion rotation = toRotation;
-
-			distance = Mathf.Clamp (distance - Input.GetAxis ("Mouse ScrollWheel") * 5, distanceMin, distanceMax);
-			RaycastHit hit;
-			if (Physics.Linecast (m_player.transform.position, transform.position, out hit)) {
-				distance -= hit.distance;
-			}
-			Vector3 negDistance = new Vector3 (0.0f, 0.0f, -distance);
-			Vector3 position = rotation * negDistance + m_player.transform.position;
+			m_rotationYAxis += m_velocityX;
+			m_rotationXAxis -= m_velocityY;
+			m_rotationXAxis = ClampAngle (m_rotationXAxis, m_yMinLimit, m_yMaxLimit);
+			Quaternion rotation = Quaternion.Euler (m_rotationXAxis, m_rotationYAxis, 0);
 
 			transform.rotation = rotation;
-			//transform.position = position;
-			velocityX = Mathf.Lerp (velocityX, 0, Time.deltaTime * smoothTime);
-			velocityY = Mathf.Lerp (velocityY, 0, Time.deltaTime * smoothTime);
+
+			m_velocityX = Mathf.Lerp (m_velocityX, 0, Time.deltaTime * m_smoothTime);
+			m_velocityY = Mathf.Lerp (m_velocityY, 0, Time.deltaTime * m_smoothTime);
 		}
 	}
 
-	public static float ClampAngle(float angle, float min, float max)
+	private static float ClampAngle(float angle, float min, float max)
 	{
-		if (angle < -360F)
-			angle += 360F;
-		if (angle > 360F)
-			angle -= 360F;
+		if (angle < -360f) {
+			angle += 360f;
+		}
+		if (angle > 360f) {
+			angle -= 360f;
+		}
 		return Mathf.Clamp(angle, min, max);
 	}
 }

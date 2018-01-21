@@ -20,6 +20,8 @@ public class DoorController : MonoBehaviour
 	{
 		m_pressed = false;
 		m_anim = GetComponent<Animator> ();
+
+		m_door.RegisterController (this);
 	}
 
 	private void OnTriggerEnter(Collider col)
@@ -50,7 +52,7 @@ public class DoorController : MonoBehaviour
 
 	private void PressurePlatePress(Collider col)
 	{
-		if (col.gameObject.tag == "Player") {
+		if (col.gameObject.tag == "Player") {	
 			m_pressed = !m_pressed;
 			DoorControl ();
 		}
@@ -61,11 +63,12 @@ public class DoorController : MonoBehaviour
 		m_anim.SetBool ("Pressed", m_pressed);
 		if (m_door != null) 
 		{
-			if (m_pressed) {
-				m_door.OpenDoor ();
-			} else {
-				m_door.CloseDoor ();
-			}
+			m_door.ChangeState (m_pressed);
 		}
+	}
+
+	public bool IsPressed()
+	{
+		return m_pressed;
 	}
 }

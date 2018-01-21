@@ -7,17 +7,30 @@ public class DoorManager : MonoBehaviour
 	private Animator m_anim;
 	private bool m_doorOpen;
 
+	private List<DoorController> m_doorControllers;
+
+	private void Awake()
+	{
+		m_doorControllers = new List<DoorController> ();
+	}
+
 	private void Start()
 	{
 		m_doorOpen = false;
 		m_anim = GetComponent<Animator> ();
+
+	}
+
+	public void RegisterController(DoorController controller)
+	{
+		m_doorControllers.Add (controller);
 	}
 
 	private void OnTriggerEnter(Collider col)
 	{
 		if (col.gameObject.tag == "Player") 
 		{
-			OpenDoor ();
+			ChangeState (true);
 		}
 	}
 
@@ -25,26 +38,29 @@ public class DoorManager : MonoBehaviour
 	{
 		if (col.gameObject.tag == "Player") 
 		{
-			CloseDoor ();
+			ChangeState (false);
 		}
 	}
 
-	public void OpenDoor()
+	public void ChangeState(bool open)
 	{
-		if (!m_doorOpen) 
+		if (m_doorOpen != open) 
 		{
-			m_doorOpen = true;
-			DoorControl (m_doorOpen);
+			if (open || (!AnyControlsPressed ())) {
+				m_doorOpen = !m_doorOpen;
+				DoorControl (m_doorOpen);
+			}
 		}
 	}
 
-	public void CloseDoor()
+	private bool AnyControlsPressed()
 	{
-		if (m_doorOpen) 
-		{
-			m_doorOpen = false;
-			DoorControl (m_doorOpen);
+		foreach (var controller in m_doorControllers) {
+			if (controller.IsPressed ()) {
+				return true;
+			}
 		}
+		return false;
 	}
 
 	private void DoorControl(bool isOpen)

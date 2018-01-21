@@ -10,13 +10,11 @@ public class CameraController : MonoBehaviour {
 	public float m_yMaxLimit = 90f;
 	public float m_smoothTime = 2f;
 
+	private Vector3 m_offset;
 	private float m_rotationYAxis = 0.0f;
 	private float m_rotationXAxis = 0.0f;
 	private float m_velocityX = 0.0f;
 	private float m_velocityY = 0.0f;
-
-	private Vector3 m_offset;
-
 
 	private void Start()
 	{

@@ -2533,8 +2533,8 @@ MonoBehaviour:
   m_player: {fileID: 1751678014}
   m_xSpeed: 4
   m_ySpeed: 2
-  m_yMinLimit: -90
-  m_yMaxLimit: 90
+  m_yMinLimit: -45
+  m_yMaxLimit: 45
   m_smoothTime: 2
 --- !u!4 &1830828926
 Transform:

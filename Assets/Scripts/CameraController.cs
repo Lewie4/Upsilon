@@ -6,8 +6,8 @@ public class CameraController : MonoBehaviour {
 	public GameObject m_player;
 	public float m_xSpeed = 2.0f;
 	public float m_ySpeed = 2.0f;
-	public float m_yMinLimit = -90f;
-	public float m_yMaxLimit = 90f;
+	public float m_yMinLimit = -45f;
+	public float m_yMaxLimit = 45f;
 	public float m_smoothTime = 2f;
 
 	private float m_rotationYAxis = 0.0f;

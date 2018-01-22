@@ -520,7 +520,7 @@ Transform:
   - {fileID: 1751678018}
   - {fileID: 1830828926}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &289814784
 GameObject:
@@ -2027,7 +2027,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4497453858691552, guid: c303f0a033cc6f74a9ff0d4e62cd03f5, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c303f0a033cc6f74a9ff0d4e62cd03f5, type: 2}
@@ -2218,7 +2218,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1924e8b7cfd6400469c21e512efb1f3f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2375,7 +2375,7 @@ Transform:
   - {fileID: 1126310224}
   - {fileID: 289814786}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1751678014
 GameObject:
@@ -2490,6 +2490,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa7e0829bc72c94babd728cc0466196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_inputHandler: {fileID: 0}
+  m_cam: {fileID: 0}
 --- !u!114 &1751678021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2608,6 +2610,7 @@ MonoBehaviour:
   m_yMinLimit: -45
   m_yMaxLimit: 45
   m_smoothTime: 2
+  m_inputHandler: {fileID: 0}
 --- !u!4 &1830828926
 Transform:
   m_ObjectHideFlags: 0

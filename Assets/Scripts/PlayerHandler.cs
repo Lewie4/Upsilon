@@ -25,10 +25,19 @@ public class PlayerHandler : MonoBehaviour {
 	//4 	- Joystick 4
 	private int m_controllerNumber = -1;
 	private string m_controllerID = "-1";
+	private bool m_registered = false;
 
 	private void Start()
 	{
-		PlayerManager.Instance.RegisterPlayer (this);
+		RegisterPlayer ();
+	}
+
+	public void RegisterPlayer()
+	{
+		if (!m_registered) {
+			PlayerManager.Instance.RegisterPlayer (this);
+			m_registered = true;
+		}
 	}
 
 	public void SetControllerID(int id)

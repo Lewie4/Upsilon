@@ -6,6 +6,8 @@ public class PlayerManager : MonoBehaviour
 {
 	public static PlayerManager Instance = null;
 
+	[SerializeField] private GameObject m_playerPrefab;
+
 	private static int m_controllersSetup = 5;
 
 	private static List<PlayerHandler> m_players;
@@ -41,7 +43,7 @@ public class PlayerManager : MonoBehaviour
 
 	public static void SetPlayer(int id)
 	{
-		if (!m_players.Contains (new PlayerHandler { ControllerNumber = id })) {
+		if (!m_players.Exists (x => x.ControllerNumber == id )) {
 			m_players [m_playersSet].SetControllerID (id);
 			m_playersSet++;
 		}
@@ -50,15 +52,30 @@ public class PlayerManager : MonoBehaviour
 	private void ScaleCameraToPlayers()
 	{
 		switch (m_players.Count) {
-		case 1:
-			{
-				m_players [0].m_cam.rect = new Rect (0, 0, 1, 1);
-				break;
-			}
 		case 2:
 			{
-				m_players [0].m_cam.rect = new Rect (0, 0, 0.5f, 1);
-				m_players [1].m_cam.rect = new Rect (0.5f, 0, 1, 1);
+				m_players [0].m_cam.rect = new Rect (0.0f, 0.0f, 0.5f, 1.0f);
+				m_players [1].m_cam.rect = new Rect (0.5f, 0.0f, 1.0f, 1.0f);
+				break;
+			}
+		case 3: 
+			{
+				m_players [0].m_cam.rect = new Rect (0.0f, 0.5f, 1.0f, 1.0f);
+				m_players [1].m_cam.rect = new Rect (0.0f, 0.0f, 0.5f, 0.5f);
+				m_players [2].m_cam.rect = new Rect (0.5f, 0.0f, 1.0f, 0.5f);
+				break;
+			}
+		case 4: 
+			{
+				m_players [0].m_cam.rect = new Rect (0.0f, 0.5f, 0.5f, 1.0f);
+				m_players [1].m_cam.rect = new Rect (0.5f, 0.5f, 1.0f, 1.0f);
+				m_players [2].m_cam.rect = new Rect (0.0f, 0.0f, 0.5f, 0.5f);
+				m_players [3].m_cam.rect = new Rect (0.5f, 0.0f, 1.0f, 0.5f);
+				break;
+			}
+		default:
+			{
+				m_players [0].m_cam.rect = new Rect (0.0f, 0.0f, 1.0f, 1.0f);
 				break;
 			}
 		}
@@ -67,12 +84,22 @@ public class PlayerManager : MonoBehaviour
 	//TEMP
 	private void Update()
 	{
-		if (m_players.Count != m_playersSet) {
+		if (m_players.Count >= m_playersSet) {
 			for (int i = 0; i < m_controllersSetup; i++) {
-				if (Input.GetButton (i + "Jump")) {
+				if (Input.GetButton (i + "Cancel")) {
+					AddPlayer (i);
 					SetPlayer (i);
 				}
 			}
+		}
+	}
+
+	//TEMP 
+	public void AddPlayer(int id)
+	{
+		if (m_players.Count == m_playersSet && (!m_players.Exists (x => x.ControllerNumber == id ))) {
+			var newPlayer = Instantiate (m_playerPrefab, this.transform);
+			newPlayer.GetComponent<PlayerHandler> ().RegisterPlayer ();
 		}
 	}
 }

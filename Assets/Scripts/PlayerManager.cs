@@ -22,10 +22,6 @@ public class PlayerManager : MonoBehaviour
 		}
 
 		m_players = new List<PlayerHandler> ();
-
-		foreach (var joystick in Input.GetJoystickNames ()) {
-			Debug.Log (joystick);
-		}
 	}
 
 	public void RegisterPlayer(PlayerHandler player)

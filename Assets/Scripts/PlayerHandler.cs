@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerHandler : MonoBehaviour {
 
+	public Camera m_cam;
+
 	public int ControllerNumber
 	{
 		get{

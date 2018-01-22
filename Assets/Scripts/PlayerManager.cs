@@ -29,12 +29,14 @@ public class PlayerManager : MonoBehaviour
 	public void RegisterPlayer(PlayerHandler player)
 	{
 		m_players.Add (player);
+		ScaleCameraToPlayers ();
 	}
 
 	public void RemovePlayer(PlayerHandler player)
 	{
 		m_players.Remove (player);
 		m_playersSet--;
+		ScaleCameraToPlayers ();
 	}
 
 	public static void SetPlayer(int id)
@@ -42,6 +44,23 @@ public class PlayerManager : MonoBehaviour
 		if (!m_players.Contains (new PlayerHandler { ControllerNumber = id })) {
 			m_players [m_playersSet].SetControllerID (id);
 			m_playersSet++;
+		}
+	}
+
+	private void ScaleCameraToPlayers()
+	{
+		switch (m_players.Count) {
+		case 1:
+			{
+				m_players [0].m_cam.rect = new Rect (0, 0, 1, 1);
+				break;
+			}
+		case 2:
+			{
+				m_players [0].m_cam.rect = new Rect (0, 0, 0.5f, 1);
+				m_players [1].m_cam.rect = new Rect (0.5f, 0, 1, 1);
+				break;
+			}
 		}
 	}
 

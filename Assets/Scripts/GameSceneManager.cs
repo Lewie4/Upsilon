@@ -32,7 +32,7 @@ public class GameSceneManager : MonoBehaviour
 
 	public IEnumerator LoadAsyncSceneAdditive(string scene)
 	{
-		if (!m_scenes.Contains (new GameScene { m_sceneName = scene })) {
+		if (!m_scenes.Exists (x => x.m_sceneName == scene)) {
 			AsyncOperation asyncLoad = SceneManager.LoadSceneAsync (scene, LoadSceneMode.Additive);
 
 			m_scenes.Add (SetupGameScene (scene, true, false));

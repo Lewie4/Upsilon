@@ -6,7 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
 	public static PlayerManager Instance = null;
 
-	[SerializeField] private static int m_controllersSetup = 1;
+	private static int m_controllersSetup = 5;
 
 	private static List<PlayerHandler> m_players;
 	private static int m_playersSet = 0;
@@ -50,8 +50,7 @@ public class PlayerManager : MonoBehaviour
 	{
 		if (m_players.Count != m_playersSet) {
 			for (int i = 0; i < m_controllersSetup; i++) {
-				//if (Input.GetButton (i + "Jump")) {
-				if(Input.GetAxis (i + "Horizontal") != 0) {
+				if (Input.GetButton (i + "Jump")) {
 					SetPlayer (i);
 				}
 			}

@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class BallUserControl : MonoBehaviour
 {
+	[SerializeField] private PlayerHandler m_inputHandler;
+	[SerializeField] private Transform m_cam;
+	
 	private Ball m_ball;
 	private Vector3 m_move;
-	private Transform m_cam;
 	private Vector3 m_camForward;
 	private bool m_jump;
 
@@ -13,20 +15,26 @@ public class BallUserControl : MonoBehaviour
 	{
 		m_ball = GetComponent<Ball> ();
 
-		if (Camera.main != null) {
-			m_cam = Camera.main.transform;
+		if (m_cam == null) {
+			Debug.LogError ("m_cam not set on " + gameObject.name);
 		} 
+
+		if (m_inputHandler == null) {
+			m_inputHandler = transform.GetComponentInParent<PlayerHandler> ();
+		}
 	}
 
 	private void Update ()
 	{
-		float h = Input.GetAxis ("Horizontal");
-		float v = Input.GetAxis ("Vertical");
-		m_jump = Input.GetButton ("Jump");
+		if (m_inputHandler.ControllerNumber != -1) {
+			float h = Input.GetAxis (m_inputHandler.GetControllerID () + "Horizontal");
+			float v = Input.GetAxis (m_inputHandler.GetControllerID () + "Vertical");
+			m_jump = Input.GetButton (m_inputHandler.GetControllerID () + "Jump");
 
-		if (m_cam != null) {
-			m_camForward = Vector3.Scale (m_cam.forward, new Vector3 (1, 0, 1)).normalized;
-			m_move = (v * m_camForward + h * m_cam.right).normalized;
+			if (m_cam != null) {
+				m_camForward = Vector3.Scale (m_cam.forward, new Vector3 (1, 0, 1)).normalized;
+				m_move = (v * m_camForward + h * m_cam.right).normalized;
+			}
 		}
 	}
 

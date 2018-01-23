@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour {
 
 	public static MenuController Instance = null;
 
+	[SerializeField] private Text m_versionText;
 	[SerializeField] private EventSystem m_es;
 	private GameObject m_selected;
 
@@ -25,6 +27,7 @@ public class MenuController : MonoBehaviour {
 
 	private void Start () 
 	{
+		m_versionText.text = "v" + Application.version;
 		m_selected = m_es.firstSelectedGameObject;
 	}
 	
@@ -44,5 +47,10 @@ public class MenuController : MonoBehaviour {
 	{
 		m_selected = selected;
 		m_es.SetSelectedGameObject(selected);
+	}
+
+	public void LoadScene(string scene)
+	{
+		StartCoroutine(GameSceneManager.Instance.LoadAsyncScene (scene));
 	}
 }

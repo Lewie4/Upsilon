@@ -4,24 +4,21 @@ using UnityEngine;
 
 public class LoadEssentials : MonoBehaviour 
 {	
-	public static LoadEssentials Instance = null;
-
-	private void Awake()
-	{
-		if (Instance == null) {
-			Instance = this;
-		} else if (Instance != this) {
-			Destroy (gameObject);   
-		}
-		DontDestroyOnLoad(gameObject);
-
-		if (GameSceneManager.Instance == null) {
-			this.gameObject.AddComponent<GameSceneManager> ();
-		}				
-	}
+	[SerializeField] private bool m_takeActiveSceneOnLoad = false;
+	[SerializeField] private List<string> m_requiredScenes;
 
 	private void Start()
 	{
-		StartCoroutine (GameSceneManager.Instance.LoadAsyncSceneAdditive ("Player"));
+		GameSceneManager.Instance.SetupEssentials (this.gameObject.scene.name, this);
+	}
+
+	public bool TakeActiveSceneOnLoad()
+	{
+		return m_takeActiveSceneOnLoad;
+	}
+
+	public List<string> RequiredScenes()
+	{
+		return m_requiredScenes;
 	}
 }

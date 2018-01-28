@@ -17,6 +17,7 @@ public class BallUserControl : MonoBehaviour
 
 		if (m_cam == null) {
 			Debug.LogError ("m_cam not set on " + gameObject.name);
+			m_cam = Camera.main.transform;
 		} 
 
 		if (m_inputHandler == null) {
@@ -31,10 +32,9 @@ public class BallUserControl : MonoBehaviour
 			float v = Input.GetAxis (m_inputHandler.GetControllerID () + "Vertical");
 			m_jump = Input.GetButton (m_inputHandler.GetControllerID () + "Jump");
 
-			if (m_cam != null) {
-				m_camForward = Vector3.Scale (m_cam.forward, new Vector3 (1, 0, 1)).normalized;
-				m_move = (v * m_camForward + h * m_cam.right).normalized;
-			}
+			m_camForward = Vector3.Scale (m_cam.forward, new Vector3 (1, 0, 1)).normalized;
+			m_move = (v * m_camForward + h * m_cam.right).normalized;
+
 		}
 	}
 

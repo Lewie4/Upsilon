@@ -26,10 +26,8 @@ public class PlayerManager : MonoBehaviour
 
 	public void RegisterPlayer(PlayerHandler player)
 	{
-		if (player.gameObject.GetComponent<PhotonView> ().isMine) {
-			m_players.Add (player);
-			ScaleCameraToPlayers ();
-		}
+		m_players.Add (player);
+		ScaleCameraToPlayers ();
 	}
 
 	public void RemovePlayer(PlayerHandler player)
@@ -41,7 +39,7 @@ public class PlayerManager : MonoBehaviour
 
 	public static void SetPlayer(int id)
 	{
-		if (!m_players.Exists (x => x.ControllerNumber == id ) && m_players[m_playersSet].gameObject.GetComponent<PhotonView>().isMine) {
+		if (!m_players.Exists (x => x.ControllerNumber == id )) {
 			m_players [m_playersSet].SetControllerID (id);
 			m_playersSet++;
 		}
@@ -96,7 +94,7 @@ public class PlayerManager : MonoBehaviour
 	public void AddPlayer(int id)
 	{
 		if (m_players.Count == m_playersSet && (!m_players.Exists (x => x.ControllerNumber == id ))) {
-			var newPlayer = GameManager.Instance.SpawnPlayer ();
+			var newPlayer = Instantiate (m_playerPrefab, this.transform);
 			newPlayer.GetComponent<PlayerHandler> ().RegisterPlayer ();
 		}
 	}

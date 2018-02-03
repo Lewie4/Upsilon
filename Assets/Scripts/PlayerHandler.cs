@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHandler : Photon.MonoBehaviour {
+public class PlayerHandler : MonoBehaviour {
 
 	public Camera m_cam;
 
@@ -27,14 +27,6 @@ public class PlayerHandler : Photon.MonoBehaviour {
 	private string m_controllerID = "-1";
 	private bool m_registered = false;
 
-	private void Awake()
-	{
-		if (m_cam == null) {
-			Debug.LogError ("SET A CAMERA IN THE PLAYERHANDLER!!!");
-			m_cam = Camera.main;
-		}
-	}
-
 	private void Start()
 	{
 		RegisterPlayer ();
@@ -42,21 +34,9 @@ public class PlayerHandler : Photon.MonoBehaviour {
 
 	public void RegisterPlayer()
 	{
-		if (PlayerManager.Instance != null && photonView.isMine) {
-			if (!m_registered) {
-				PlayerManager.Instance.RegisterPlayer (this);
-				m_registered = true;
-			}
-		}
-	}
-
-	private void OnDestroy()
-	{
-		if (PlayerManager.Instance != null && photonView.isMine) {
-			if (m_registered) {
-				PlayerManager.Instance.RemovePlayer (this);
-				m_registered = false;
-			}
+		if (!m_registered) {
+			PlayerManager.Instance.RegisterPlayer (this);
+			m_registered = true;
 		}
 	}
 

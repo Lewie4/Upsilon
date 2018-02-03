@@ -706,7 +706,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_takeActiveSceneOnLoad: 1
-  m_requiredScenes: []
+  m_requiredScenes:
+  - Player
 --- !u!4 &368242951
 Transform:
   m_ObjectHideFlags: 0

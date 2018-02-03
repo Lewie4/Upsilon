@@ -94,7 +94,13 @@ public class PlayerManager : MonoBehaviour
 	public void AddPlayer(int id)
 	{
 		if (m_players.Count == m_playersSet && (!m_players.Exists (x => x.ControllerNumber == id ))) {
-			var newPlayer = Instantiate (m_playerPrefab, this.transform);
+			Vector3 playerPos = Vector3.zero;
+			if(m_players.Count > 0)
+			{
+				playerPos = m_players [0].transform.GetComponentInChildren<Ball> ().gameObject.transform.position;
+			}
+			Vector3 spawnPos = new Vector3 (playerPos.x, playerPos.y + 5, playerPos.z);
+			var newPlayer = Instantiate (m_playerPrefab, spawnPos, Quaternion.identity, this.transform);
 			newPlayer.GetComponent<PlayerHandler> ().RegisterPlayer ();
 		}
 	}

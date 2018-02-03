@@ -51,8 +51,8 @@ public class DoorController : MonoBehaviour
 	}
 
 	private void PressurePlatePress(Collider col)
-	{
-		if (col.gameObject.tag == "Player") {	
+	{	
+		if (col.gameObject.tag != "Ground") {	
 			m_pressed = !m_pressed;
 			DoorControl ();
 		}
